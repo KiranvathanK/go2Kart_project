@@ -1,0 +1,22 @@
+# Set the image
+FROM vm/ubuntu:18.04
+
+# Install nodejs and npm
+RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs
+RUN sudo npm install npm@latest -g
+
+# Install angular
+RUN npm install -g @angular/cli
+
+# Get files from repository
+COPY . .
+
+# Install project dependencies
+RUN npm install
+
+# Run angular app
+RUN BACKGROUND ng serve --host 0.0.0.0 --disable-host-check
+
+# Show website on preview environment at port 4200
+EXPOSE WEBSITE http://localhost:4200
